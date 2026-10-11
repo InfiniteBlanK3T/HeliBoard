@@ -44,7 +44,13 @@ class CombinerChain(initialText: String, combiningSpec: String) {
         else if (combiningSpec == "bn_khipro")
             mCombiners.add(BnKhiproCombiner())
         else if (combiningSpec == "vni")
-            mCombiners.add(VniCombiner())
+            mCombiners.add(VietnameseCombiner(VietnameseMethod.VNI, VietnameseToneStyle.TRADITIONAL))
+        else if (combiningSpec == "vni_modern")
+            mCombiners.add(VietnameseCombiner(VietnameseMethod.VNI, VietnameseToneStyle.MODERN))
+        else if (combiningSpec == "telex")
+            mCombiners.add(VietnameseCombiner(VietnameseMethod.TELEX, VietnameseToneStyle.TRADITIONAL))
+        else if (combiningSpec == "telex_modern")
+            mCombiners.add(VietnameseCombiner(VietnameseMethod.TELEX, VietnameseToneStyle.MODERN))
     }
 
     fun reset() {

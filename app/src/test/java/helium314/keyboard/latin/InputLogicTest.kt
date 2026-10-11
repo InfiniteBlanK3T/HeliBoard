@@ -174,6 +174,18 @@ class InputLogicTest {
         assertEquals("tiếng đường", text)
     }
 
+    @Test fun combineTelexTyping() {
+        val vi = "vi".constructLocale()
+        val telex = SubtypeSettings.getResourceSubtypesForLocale(vi)
+            .first { SubtypeLocaleUtils.getCombiningRulesExtraValue(it) == "telex" }
+        latinIME.switchToSubtype(telex)
+        chainInput("tieengs")
+        assertEquals("tiếng", text)
+        chainInput(" ")
+        chainInput("dduwowngf")
+        assertEquals("tiếng đường", text)
+    }
+
     @Test fun emojiHangul() {
         val ko = SubtypeSettings.getResourceSubtypesForLocale("ko".constructLocale()).first()
         latinIME.switchToSubtype(ko)

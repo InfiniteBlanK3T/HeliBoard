@@ -266,7 +266,10 @@ object SubtypeSettings {
                 continue
             }
 
-            val subtype = subtypesForLocale.firstOrNull { it.mainLayoutNameOrQwerty() == (settingsSubtype.mainLayoutName() ?: SubtypeLocaleUtils.QWERTY) }
+            // prefer an exact match (so subtypes that share a layout but differ in extra values,
+            // e.g. different combining rules, can coexist), then fall back to matching by layout
+            val subtype = subtypesForLocale.firstOrNull { it.toSettingsSubtype() == settingsSubtype }
+                ?: subtypesForLocale.firstOrNull { it.mainLayoutNameOrQwerty() == (settingsSubtype.mainLayoutName() ?: SubtypeLocaleUtils.QWERTY) }
             if (subtype == null) {
                 val message = "subtype $settingsSubtype could not be loaded"
                 Log.w(TAG, message)
