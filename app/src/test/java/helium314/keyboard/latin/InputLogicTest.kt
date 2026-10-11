@@ -27,6 +27,7 @@ import helium314.keyboard.latin.inputlogic.InputLogic
 import helium314.keyboard.latin.inputlogic.SpaceState
 import helium314.keyboard.latin.settings.Settings
 import helium314.keyboard.latin.utils.ScriptUtils
+import helium314.keyboard.latin.utils.SubtypeLocaleUtils
 import helium314.keyboard.latin.utils.SubtypeSettings
 import helium314.keyboard.latin.utils.getTimestampFormatter
 import helium314.keyboard.latin.utils.prefs
@@ -159,6 +160,18 @@ class InputLogicTest {
         latinIME.switchToSubtype(ko)
         chainInput("ㅂㄱㅑ")
         assertEquals("ㅂ갸", text)
+    }
+
+    @Test fun combineVniTyping() {
+        val vi = "vi".constructLocale()
+        val vni = SubtypeSettings.getResourceSubtypesForLocale(vi)
+            .first { SubtypeLocaleUtils.getCombiningRulesExtraValue(it) == "vni" }
+        latinIME.switchToSubtype(vni)
+        chainInput("tie6ng1")
+        assertEquals("tiếng", text)
+        chainInput(" ")
+        chainInput("d9u7o7ng2")
+        assertEquals("tiếng đường", text)
     }
 
     @Test fun emojiHangul() {
